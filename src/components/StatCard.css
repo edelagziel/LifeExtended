@@ -1,0 +1,36 @@
+.stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 12px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+  /* טיפ בונוס: מעבר hover קטן */
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: 0.2s ease;
+}
+
+
+.stat-card h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #0a4d68;
+}
+
+.stat-card h3 {
+  margin: 4px 0;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #1383c6;
+}
+
+.stat-card p {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #555;
+}
