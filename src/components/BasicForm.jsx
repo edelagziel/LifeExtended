@@ -23,7 +23,7 @@ function BasicForm()
             return;
         }
 
-        setErrorMsg(""); 
+        setErrorMsg("Save scassuley "); 
         console.log("Form submitted successfully:", form);
     }
 
