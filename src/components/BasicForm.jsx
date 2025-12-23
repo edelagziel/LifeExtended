@@ -1,5 +1,6 @@
-import React,{useState} from "react";
+import { useState, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../context/UserContext";
 
 
 
@@ -8,6 +9,7 @@ function BasicForm()
 {
     const [form,setForm]=useState({sex:"",age:"",height:"",weight:""});
     const [errorMsg, setErrorMsg] = useState("");
+    const { setIsProfileFilled } = useContext(UserContext);
 
 
 
@@ -25,6 +27,10 @@ function BasicForm()
 
         setErrorMsg("Save scassuley "); 
         console.log("Form submitted successfully:", form);
+
+        setIsProfileFilled(true);
+
+
     }
 
 

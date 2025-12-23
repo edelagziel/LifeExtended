@@ -3,10 +3,11 @@ import Home from "./components/Home";
 import BasicForm from "./components/BasicForm";
 import ResearchFeed from "./components/ResearchFeed";
 import Navbar from "./components/Navbar";
-
+import { UserProvider } from "./context/UserContext";
 function App() {
   return (
     <BrowserRouter>
+    <UserProvider>
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -14,6 +15,7 @@ function App() {
         <Route path="/api" element={<ResearchFeed />} />
         <Route path="*" element={<h1>404 – Page not found</h1>} />
       </Routes>
+      </UserProvider>
     </BrowserRouter>
   );
 }
