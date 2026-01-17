@@ -1,10 +1,11 @@
 import { createContext, useState } from "react";
+import {useLocalStorage} from "../customHooks/useLocalStorage"
 
  const UserContext = createContext();
 
 function UserProvider({ children }) 
 {
-  const [isProfileFilled, setIsProfileFilled] = useState(false);
+  const [isProfileFilled, setIsProfileFilled] = useLocalStorage("isProfileFilled",false);
 
   return (
     <UserContext.Provider value={{ isProfileFilled, setIsProfileFilled }}>

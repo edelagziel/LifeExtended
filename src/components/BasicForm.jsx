@@ -1,13 +1,13 @@
 import { useState, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-
+import {useLocalStorage} from "../customHooks/useLocalStorage"
 
 
 
 function BasicForm()
 {
-    const [form,setForm]=useState({sex:"",age:"",height:"",weight:""});
+    const [form,setForm]=useLocalStorage("basicFormDraft",{sex:"",age:"",height:"",weight:""});
     const [errorMsg, setErrorMsg] = useState("");
     const { setIsProfileFilled } = useContext(UserContext);
 
