@@ -1,31 +1,28 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../store/store.js";
-import { toggleTheme } from "../store/themeSlice.js";
-
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 
+import { useNavbar } from "./useNavbar";
+
 function Navbar() {
-  const dispatch = useDispatch();
-  const mode = useSelector((state: RootState) => state.theme.mode);
+  const { mode, onToggleTheme } = useNavbar();
 
   return (
     <AppBar
       position="static"
       sx={{
         borderBottom: "1px solid",
-        borderColor: "divider",
+        borderColor: "var(--border)",
         bgcolor: "transparent",
         color: "inherit",
         boxShadow: "none",
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
-        {/* צד שמאל – לוגו + ניווט */}
+        {/* שמאל – מיתוג + ניווט */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography
             variant="h6"
@@ -52,12 +49,12 @@ function Navbar() {
           </Button>
         </Box>
 
-        {/* צד ימין – Theme */}
+        {/* ימין – Theme */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Typography variant="body2">
             Theme: <strong>{mode}</strong>
           </Typography>
-          <Button variant="outlined" onClick={() => dispatch(toggleTheme())}>
+          <Button variant="outlined" onClick={onToggleTheme}>
             Toggle Theme
           </Button>
         </Box>
