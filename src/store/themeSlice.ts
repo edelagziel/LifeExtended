@@ -1,31 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
 
 type ThemeState = {
   mode: "light" | "dark";
-  fontSize: number;
+};
+
+const THEME_STORAGE_KEY = "themeMode";
+
+const getInitialMode = (): ThemeState["mode"] => {
+  const stored = localStorage.getItem(THEME_STORAGE_KEY);
+  return stored === "dark" ? "dark" : "light";
 };
 
 const initialState: ThemeState = {
-  mode: "light",
-  fontSize: 16,
+  mode: getInitialMode(),
 };
 
 const themeSlice = createSlice({
   name: "theme",
   initialState,
   reducers: {
-    toggleMode(state) {
+    toggleTheme(state) {
       state.mode = state.mode === "light" ? "dark" : "light";
-    },
-    setMode(state, action: PayloadAction<"light" | "dark">) {
-      state.mode = action.payload;
-    },
-    setFontSize(state, action: PayloadAction<number>) {
-      state.fontSize = action.payload;
+      localStorage.setItem(THEME_STORAGE_KEY, state.mode);
     },
   },
 });
 
-export const { toggleMode, setMode, setFontSize } = themeSlice.actions;
+export const { toggleTheme } = themeSlice.actions;
 export default themeSlice.reducer;
