@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./components/Home";
-import BasicForm from "./components/BasicForm";
+import BasicForm from "./components/form/BasicForm.jsx";
 import ResearchFeed from "./components/ResearchFeed";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ThemeBodyClass from "./components/ThemeBodyClass";
-import { UserProvider } from "./context/UserContext";
+import { UserProvider } from "./context/UserContext.tsx";
 import "./main.css";
 
 function App() {

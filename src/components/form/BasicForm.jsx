@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import axios from "axios";
-import { UserContext } from "../context/UserContext";
-import {useLocalStorage} from "../customHooks/useLocalStorage"
+import { UserContext } from "../../context/UserContext.tsx";
+import {useLocalStorage} from "../../customHooks/useLocalStorage.ts"
 
 
 

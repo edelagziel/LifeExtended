@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { useNavbar } from "./useNavbar";
 
 function Navbar() {
-  const { mode, onToggleTheme } = useNavbar();
+  const { mode, isProfileFilled, onToggleTheme } = useNavbar();
 
   return (
     <AppBar
@@ -48,12 +48,31 @@ function Navbar() {
             API
           </Button>
         </Box>
-
-        {/* ימין – Theme */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        {/* ימין – תצוגת מצב פרופיל ועיצוב */}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            gap: 1,
+          }}
+        >
           <Typography variant="body2">
             Theme: <strong>{mode}</strong>
           </Typography>
+
+          {!isProfileFilled && (
+            <Typography variant="caption" color="error">
+              Please complete your profile
+            </Typography>
+          )}
+
+          {isProfileFilled && (
+            <Typography variant="caption" color="success.main">
+              Thank you for completing your profile
+            </Typography>
+          )}
+
           <Button variant="outlined" onClick={onToggleTheme}>
             Toggle Theme
           </Button>
