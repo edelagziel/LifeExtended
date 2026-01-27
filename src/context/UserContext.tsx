@@ -1,26 +1,50 @@
-import { createContext, type ReactNode, type Dispatch, type SetStateAction } from "react";
+import { createContext, ReactNode } from "react";
 import { useLocalStorage } from "../customHooks/useLocalStorage";
 
-type UserContextValue = {
+interface UserContextType {
+  isAuthenticated: boolean;
   isProfileFilled: boolean;
-  setIsProfileFilled: Dispatch<SetStateAction<boolean>>;
-};
+  email: string | null;
 
-const UserContext = createContext<UserContextValue | undefined>(undefined);
+  setIsAuthenticated: (value: boolean) => void;
+  setIsProfileFilled: (value: boolean) => void;
+  setEmail: (value: string | null) => void;
+}
 
-type UserProviderProps = {
+export const UserContext = createContext<UserContextType | undefined>(undefined);
+
+interface UserProviderProps {
   children: ReactNode;
-};
+}
 
-function UserProvider({ children }: UserProviderProps) {
-  const [isProfileFilled, setIsProfileFilled] = useLocalStorage(
+export function UserProvider({ children }: UserProviderProps) {
+  const [isAuthenticated, setIsAuthenticated] = useLocalStorage<boolean>(
+    "isAuthenticated",
+    false
+  );
+
+  const [isProfileFilled, setIsProfileFilled] = useLocalStorage<boolean>(
     "isProfileFilled",
     false
   );
 
-  const value: UserContextValue = { isProfileFilled, setIsProfileFilled };
+  const [email, setEmail] = useLocalStorage<string | null>(
+    "userEmail",
+    null
+  );
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
+  const value: UserContextType = {
+    isAuthenticated,
+    isProfileFilled,
+    email,
+    setIsAuthenticated,
+    setIsProfileFilled,
+    setEmail,
+  };
+
+  return (
+    <UserContext.Provider value={value}>
+      {children}
+    </UserContext.Provider>
+  );
 }
-
-export { UserProvider, UserContext };

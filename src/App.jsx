@@ -1,19 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-import Home from "./components/Home";
-import BasicForm from "./components/form/BasicForm.jsx";
-import ResearchFeed from "./components/ResearchFeed";
+import Home from "./pages/Home/Home.tsx";
+import { ProfileForm } from "./components/form";
+import ResearchFeed from "./components/Researchitem/ResearchFeed.jsx";
+import RegisterPage from "./pages/Register/RegisterPage";
+
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ThemeBodyClass from "./components/ThemeBodyClass";
 import { UserProvider } from "./context/UserContext.tsx";
+import ProtectedRoute from "./routes/ProtectedRoute";
+import SurveyPage from "./features/survey/SurveyPage";
+
+
 import "./main.css";
 
 function App() {
   return (
     <BrowserRouter>
       <UserProvider>
-        {/* theme side-effect גלובלי */}
+        {/* side-effect גלובלי: theme על ה-body */}
         <ThemeBodyClass />
 
         <div className="app-shell">
@@ -21,9 +27,49 @@ function App() {
 
           <main className="app-main">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/form" element={<BasicForm />} />
-              <Route path="/api" element={<ResearchFeed />} />
+              {/* ברירת מחדל */}
+              <Route path="/" element={<Navigate to="/register" replace />} />
+
+              {/* ציבורי */}
+              <Route path="/register" element={<RegisterPage />} />
+
+              {/* מוגן */}
+              <Route
+                path="/home"
+                element={
+                  <ProtectedRoute>
+                    <Home />
+                  </ProtectedRoute>
+                }
+              />
+            <Route
+                path="/survey"
+                element={
+                  <ProtectedRoute>
+                    <SurveyPage />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/form"
+                element={
+                  <ProtectedRoute>
+                    <ProfileForm />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="/api"
+                element={
+                  <ProtectedRoute>
+                    <ResearchFeed />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* 404 */}
               <Route path="*" element={<h1>404 – Page not found</h1>} />
             </Routes>
           </main>

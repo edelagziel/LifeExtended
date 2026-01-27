@@ -13,7 +13,8 @@ export function useNavbar() {
     throw new Error("useNavbar must be used within UserProvider");
   }
 
-  const { isProfileFilled } = user;
+
+  const { isAuthenticated, isProfileFilled } = user;
 
   function onToggleTheme() {
     dispatch(toggleTheme());
@@ -21,6 +22,7 @@ export function useNavbar() {
 
   return {
     mode,
+    isAuthenticated,   
     isProfileFilled,
     onToggleTheme,
   };

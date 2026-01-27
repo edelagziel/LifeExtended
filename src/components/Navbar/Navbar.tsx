@@ -8,7 +8,12 @@ import Typography from "@mui/material/Typography";
 import { useNavbar } from "./useNavbar";
 
 function Navbar() {
-  const { mode, isProfileFilled, onToggleTheme } = useNavbar();
+  const {
+    mode,
+    isAuthenticated,
+    isProfileFilled,
+    onToggleTheme,
+  } = useNavbar();
 
   return (
     <AppBar
@@ -27,7 +32,7 @@ function Navbar() {
           <Typography
             variant="h6"
             component={Link}
-            to="/"
+            to={isAuthenticated ? "/home" : "/register"}
             sx={{
               textDecoration: "none",
               color: "inherit",
@@ -38,17 +43,51 @@ function Navbar() {
             LifeExtended
           </Typography>
 
-          <Button component={Link} to="/" color="inherit">
+          <Button
+            component={Link}
+            to="/home"
+            color="inherit"
+            disabled={!isAuthenticated}
+          >
             Home
           </Button>
-          <Button component={Link} to="/form" color="inherit">
-            Form
+
+          <Button
+            component={Link}
+            to="/api"
+            color="inherit"
+            disabled={!isAuthenticated}
+          >
+            Research
           </Button>
-          <Button component={Link} to="/api" color="inherit">
-            API
+
+          <Button
+            component={Link}
+            to="/survey"
+            color="inherit"
+            disabled={!isAuthenticated}
+          >
+            Survey
           </Button>
+
+          <Button
+            component={Link}
+            to="/form"
+            color="inherit"
+            disabled={!isAuthenticated}
+          >
+            Profile
+          </Button>
+
+          {/* Register – רק אם לא מחובר */}
+          {!isAuthenticated && (
+            <Button component={Link} to="/register" color="inherit">
+              Register
+            </Button>
+          )}
         </Box>
-        {/* ימין – תצוגת מצב פרופיל ועיצוב */}
+
+        {/* ימין – מצב + Theme */}
         <Box
           sx={{
             display: "flex",
@@ -61,13 +100,13 @@ function Navbar() {
             Theme: <strong>{mode}</strong>
           </Typography>
 
-          {!isProfileFilled && (
+          {isAuthenticated && !isProfileFilled && (
             <Typography variant="caption" color="error">
               Please complete your profile
             </Typography>
           )}
 
-          {isProfileFilled && (
+          {isAuthenticated && isProfileFilled && (
             <Typography variant="caption" color="success.main">
               Thank you for completing your profile
             </Typography>
