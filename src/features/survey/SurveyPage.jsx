@@ -77,7 +77,7 @@ function SurveyPage() {
 
       {voteSuccess && (
         <div className="survey-success-message">
-          ✅ Thank you for contributing to LifeExtended research!
+          Thank you for contributing to LifeExtended research!
         </div>
       )}
     </div>
