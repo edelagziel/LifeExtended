@@ -35,8 +35,19 @@ export function useSurvey() {
   });
 
   /**
+   * Generate a unique fingerprint for the poll
+   * Used to detect when poll content changes
+   */
+  function getPollFingerprint(poll) {
+    if (!poll) return null;
+    // Create simple hash from title + number of options
+    return `${poll.title}_${poll.options?.length || 0}`;
+  }
+
+  /**
    * Load poll configuration on mount
    * Falls back to static config if server fetch fails
+   * Detects poll changes and resets vote state if needed
    */
   useEffect(() => {
     async function loadPoll() {
@@ -46,13 +57,30 @@ export function useSurvey() {
         
         const data = await getActivePoll();
         
-        if (data) {
-          setPollData(data);
-        } else {
-          // Fallback to static config
+        const loadedPoll = data || surveyConfig;
+        
+        if (!data) {
           console.info("Using fallback survey configuration");
-          setPollData(surveyConfig);
         }
+        
+        // Check if this is a new/different poll
+        const newFingerprint = getPollFingerprint(loadedPoll);
+        const savedFingerprint = localStorage.getItem("surveyFingerprint");
+        
+        if (savedFingerprint && savedFingerprint !== newFingerprint) {
+          // Poll has changed - reset vote state
+          console.info("New survey detected - resetting vote state");
+          localStorage.removeItem("surveyVoted");
+          localStorage.removeItem("surveyEmail");
+          setVoteSuccess(false);
+        }
+        
+        // Save new fingerprint
+        if (newFingerprint) {
+          localStorage.setItem("surveyFingerprint", newFingerprint);
+        }
+        
+        setPollData(loadedPoll);
       } catch (err) {
         console.error("Error loading poll:", err);
         setPollError("Failed to load survey");
@@ -108,6 +136,11 @@ export function useSurvey() {
       // Save to localStorage so it persists after page reload
       localStorage.setItem("surveyVoted", "true");
       localStorage.setItem("surveyEmail", email.toLowerCase().trim());
+      // Also save current poll fingerprint
+      const fingerprint = getPollFingerprint(pollData);
+      if (fingerprint) {
+        localStorage.setItem("surveyFingerprint", fingerprint);
+      }
     } catch (err) {
       if (err.message === "ALREADY_VOTED") {
         setVoteError("This email has already participated.");
