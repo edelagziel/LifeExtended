@@ -98,44 +98,18 @@
     font-size: 0.9rem;
   }
   
-  /* Success state */
-  .survey-success {
-    max-width: 420px;
-    margin: 80px auto 0;
-    padding: 32px;
-    border-radius: 16px;
-    background-color: #ffffff;
-    border: 1px solid #e5e7eb;
-    text-align: center;
-  }
-  
-  .survey-success h2 {
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-  }
-  
-  .survey-success p {
-    color: #4b5563;
-    font-size: 0.95rem;
-  }
-  
-  /* Reset button */
-  .survey-reset {
-    margin-top: 20px;
-    padding: 10px 16px;
-    font-size: 0.9rem;
-    border-radius: 8px;
-    border: 1px solid #2563eb;
-    background-color: transparent;
-    color: #2563eb;
-    cursor: pointer;
-    transition: background-color 0.2s, color 0.2s;
-  }
-  
-  .survey-reset:hover {
-    background-color: #2563eb;
-    color: white;
-  }
+/* Success message (inline) */
+.survey-success-message {
+  margin-top: 32px;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background-color: #f0fdf4;
+  color: #15803d;
+  border-left: 4px solid #22c55e;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
   
   /* Responsive */
   @media (max-width: 640px) {

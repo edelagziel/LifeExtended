@@ -1,49 +1,41 @@
 // src/pages/Home/HomeMetrics.tsx
 import StatCard from "../../components/StatCard";
+import { useLocalStorage } from "../../customHooks/useLocalStorage";
+import { useHealthMetrics } from "../../customHooks/useHealthMetrics";
+import type { ProfileFormData } from "../../components/form/profile.types";
+
+const initialProfileData: ProfileFormData = {
+  heightCm: "",
+  weightKg: "",
+  age: "",
+  gender: "",
+  activityLevel: "",
+  sleepQuality: "",
+  stressLevel: 3,
+  smoking: false,
+  alcohol: "",
+  goals: [],
+};
 
 function HomeMetrics() {
-  const data = {
-    load: 3,
-    fatigue: 2,
-    crashRisk: 1,
-    stability: 5,
-  };
+  // Load profile from localStorage
+  const [profileData] = useLocalStorage<ProfileFormData>(
+    "profileForm",
+    initialProfileData
+  );
 
-  const cards = [
-    {
-      title: "Load",
-      value: data.load,
-      description:
-        "Your metabolic and mental load today is moderate. Sustained high load over time may increase risk.",
-    },
-    {
-      title: "Fatigue",
-      value: data.fatigue,
-      description:
-        "Energy levels are slightly reduced. Pay attention to sleep and recovery.",
-    },
-    {
-      title: "Crash Risk",
-      value: data.crashRisk,
-      description:
-        "Low immediate burnout risk. Maintain current balance.",
-    },
-    {
-      title: "Stability",
-      value: data.stability,
-      description:
-        "Overall system stability is strong. Consistency is working in your favor.",
-    },
-  ];
+  // Calculate metrics based on profile
+  const metrics = useHealthMetrics(profileData);
 
   return (
     <section className="home-metrics">
-      {cards.map((card) => (
+      {metrics.map((metric) => (
         <StatCard
-          key={card.title}
-          title={card.title}
-          value={card.value}
-          description={card.description}
+          key={metric.title}
+          title={metric.title}
+          value={metric.value}
+          description={metric.description}
+          helpText={metric.helpText}
         />
       ))}
     </section>

@@ -23,7 +23,16 @@ export function useSurvey() {
   const [email, setEmail] = useState("");
   const [voteLoading, setVoteLoading] = useState(false);
   const [voteError, setVoteError] = useState(null);
-  const [voteSuccess, setVoteSuccess] = useState(false);
+  
+  // Check if user already voted (from localStorage)
+  const [voteSuccess, setVoteSuccess] = useState(() => {
+    try {
+      const voted = localStorage.getItem("surveyVoted");
+      return voted === "true";
+    } catch {
+      return false;
+    }
+  });
 
   /**
    * Load poll configuration on mount
@@ -58,13 +67,23 @@ export function useSurvey() {
   }, []);
 
   /**
-   * Auto-fill email from user context if available
+   * Auto-fill email from user context or localStorage if available
    */
   useEffect(() => {
     if (user?.email) {
       setEmail(user.email);
+    } else {
+      // If user voted before, load their email
+      try {
+        const savedEmail = localStorage.getItem("surveyEmail");
+        if (savedEmail && voteSuccess) {
+          setEmail(savedEmail);
+        }
+      } catch {
+        // Ignore localStorage errors
+      }
     }
-  }, [user?.email]);
+  }, [user?.email, voteSuccess]);
 
   /**
    * Handle vote submission
@@ -86,6 +105,9 @@ export function useSurvey() {
         choice,
       });
       setVoteSuccess(true);
+      // Save to localStorage so it persists after page reload
+      localStorage.setItem("surveyVoted", "true");
+      localStorage.setItem("surveyEmail", email.toLowerCase().trim());
     } catch (err) {
       if (err.message === "ALREADY_VOTED") {
         setVoteError("This email has already participated.");
@@ -103,6 +125,9 @@ export function useSurvey() {
   function resetSurvey() {
     setVoteSuccess(false);
     setVoteError(null);
+    // Clear localStorage
+    localStorage.removeItem("surveyVoted");
+    localStorage.removeItem("surveyEmail");
     if (!user?.email) {
       setEmail("");
     }

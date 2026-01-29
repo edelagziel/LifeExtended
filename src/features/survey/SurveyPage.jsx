@@ -36,20 +36,6 @@ function SurveyPage() {
     );
   }
 
-  /* ===== Success state ===== */
-  if (voteSuccess) {
-    return (
-      <div className="survey-success">
-        <h2>✅ Response Recorded</h2>
-        <p>Thank you for contributing to LifeExtended research.</p>
-
-        <button className="survey-reset" onClick={resetSurvey}>
-          Submit another response
-        </button>
-      </div>
-    );
-  }
-
   /* ===== Main survey ===== */
   return (
     <div className="survey-page">
@@ -61,10 +47,10 @@ function SurveyPage() {
         placeholder="name@example.com"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        disabled={voteLoading || isEmailLocked}
+        disabled={voteLoading || isEmailLocked || voteSuccess}
       />
 
-      {isEmailLocked && (
+      {isEmailLocked && !voteSuccess && (
         <small className="survey-email-note">
           Answering as <strong>{email}</strong>
         </small>
@@ -76,7 +62,7 @@ function SurveyPage() {
             key={opt}
             className="survey-option"
             onClick={() => handleVote(opt)}
-            disabled={voteLoading}
+            disabled={voteLoading || voteSuccess}
           >
             {opt}
           </button>
@@ -88,6 +74,12 @@ function SurveyPage() {
       )}
 
       {voteError && <div className="survey-error">{voteError}</div>}
+
+      {voteSuccess && (
+        <div className="survey-success-message">
+          ✅ Thank you for contributing to LifeExtended research!
+        </div>
+      )}
     </div>
   );
 }
