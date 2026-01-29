@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home/Home.tsx";
 import { ProfileForm } from "./components/form";
@@ -15,18 +15,16 @@ import SurveyPage from "./features/survey/SurveyPage";
 
 import "./main.css";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideNavbar = location.pathname === "/register";
+
   return (
-    <BrowserRouter>
-      <UserProvider>
-        {/* side-effect גלובלי: theme על ה-body */}
-        <ThemeBodyClass />
+    <div className="app-shell">
+      {!hideNavbar && <Navbar />}
 
-        <div className="app-shell">
-          <Navbar />
-
-          <main className="app-main">
-            <Routes>
+      <main className="app-main">
+        <Routes>
               {/* ברירת מחדל */}
               <Route path="/" element={<Navigate to="/register" replace />} />
 
@@ -76,6 +74,16 @@ function App() {
 
           <Footer />
         </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <UserProvider>
+        {/* side-effect גלובלי: theme על ה-body */}
+        <ThemeBodyClass />
+        <AppContent />
       </UserProvider>
     </BrowserRouter>
   );

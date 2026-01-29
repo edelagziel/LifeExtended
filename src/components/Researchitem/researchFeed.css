@@ -15,9 +15,16 @@
   .research-actions button {
     padding: 6px 12px;
     border-radius: 6px;
-    border: 1px solid #ccc;
-    background: #f8f9fa;
+    border: 1px solid var(--button-border);
+    background: var(--button-bg);
+    color: var(--button-text);
     cursor: pointer;
+    transition: box-shadow 180ms ease, transform 180ms ease;
+  }
+
+  .research-actions button:hover {
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-1px);
   }
 
   
