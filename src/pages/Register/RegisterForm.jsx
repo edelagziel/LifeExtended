@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { signUp } from "aws-amplify/auth";
 
 /**
  * RegisterForm Component
  * 
- * Responsibility: Form logic, validation, and user interaction
+ * Responsibility: Form logic, validation, and user interaction with AWS Cognito
  * This component handles all form-related business logic including:
  * - Form state management
  * - Input validation
  * - Error handling
- * - Form submission
+ * - Form submission to Cognito
  */
 function RegisterForm({ onSuccess }) {
   // Form state - using controlled components pattern
@@ -90,7 +91,7 @@ function RegisterForm({ onSuccess }) {
   };
 
   /**
-   * Handles form submission
+   * Handles form submission with AWS Cognito
    * Validates form and calls onSuccess callback if valid
    * @param {Event} e - Form submit event
    */
@@ -106,21 +107,27 @@ function RegisterForm({ onSuccess }) {
       return;
     }
 
-    // Simulate async operation (e.g., API call)
     setIsSubmitting(true);
 
     try {
-      // TODO: Add actual API call here
-      // Example: await registerUser(formData);
+      // Sign up with AWS Cognito
+      const { isSignUpComplete, userId, nextStep } = await signUp({
+        username: formData.email.toLowerCase().trim(),
+        password: formData.password,
+        options: {
+          userAttributes: {
+            email: formData.email.toLowerCase().trim(),
+          },
+          autoSignIn: true, // Auto sign in after confirmation
+        },
+      });
 
-      // Simulate network delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log("Sign up result:", { isSignUpComplete, userId, nextStep });
 
-      // On success, call the callback
+      // On success (regardless of confirmation requirement), call the callback
       if (onSuccess) {
         onSuccess({
           email: formData.email,
-          // Never send password in success callback in real app
         });
       }
 
@@ -132,9 +139,22 @@ function RegisterForm({ onSuccess }) {
       });
       setErrors({});
     } catch (error) {
-      // Handle registration error
+      console.error("Registration error:", error);
+
+      // Handle specific Cognito errors
+      let errorMessage = "Registration failed. Please try again.";
+
+      if (error.name === "UsernameExistsException") {
+        errorMessage = "An account with this email already exists.";
+      } else if (error.name === "InvalidPasswordException") {
+        errorMessage =
+          "Password must be at least 8 characters and include uppercase, lowercase, numbers, and special characters.";
+      } else if (error.name === "InvalidParameterException") {
+        errorMessage = "Please check your email format and password requirements.";
+      }
+
       setErrors({
-        submit: "Registration failed. Please try again.",
+        submit: errorMessage,
       });
     } finally {
       setIsSubmitting(false);

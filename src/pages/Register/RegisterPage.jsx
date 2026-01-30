@@ -29,17 +29,10 @@ function RegisterPage() {
   const handleRegisterSuccess = (formData) => {
     console.log("Registration successful:", formData);
 
-    // 🔐 סימון משתמש כמחובר
-    user.setIsAuthenticated(true);
-
-    // 📧 שמירת אימייל גלובלי (ל־Survey, Home, וכו')
-    user.setEmail(formData.email.toLowerCase().trim());
-
-    // 👤 עדיין לא מילא פרופיל
-    user.setIsProfileFilled(false);
-
-    // 🚀 מעבר לאפליקציה
-    navigate("/home");
+    // Navigate to confirmation page with email
+    navigate("/confirm", {
+      state: { email: formData.email },
+    });
   };
 
   return (
@@ -62,7 +55,7 @@ function RegisterPage() {
             Already have an account?{" "}
             <span
               className="login-link"
-              onClick={() => navigate("/register")}
+              onClick={() => navigate("/login")}
             >
               Sign in
             </span>

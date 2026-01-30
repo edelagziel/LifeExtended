@@ -4,6 +4,8 @@ import Home from "./pages/Home/Home.tsx";
 import { ProfileForm } from "./components/form";
 import ResearchFeed from "./components/Researchitem/ResearchFeed.jsx";
 import RegisterPage from "./pages/Register/RegisterPage";
+import LoginPage from "./pages/Login/LoginPage";
+import ConfirmPage from "./pages/Confirm/ConfirmPage";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -17,7 +19,7 @@ import "./main.css";
 
 function AppContent() {
   const location = useLocation();
-  const hideNavbar = location.pathname === "/register";
+  const hideNavbar = location.pathname === "/register" || location.pathname === "/login" || location.pathname === "/confirm";
 
   return (
     <div className="app-shell">
@@ -26,10 +28,12 @@ function AppContent() {
       <main className="app-main">
         <Routes>
               {/* ברירת מחדל */}
-              <Route path="/" element={<Navigate to="/register" replace />} />
+              <Route path="/" element={<Navigate to="/login" replace />} />
 
               {/* ציבורי */}
+              <Route path="/login" element={<LoginPage />} />
               <Route path="/register" element={<RegisterPage />} />
+              <Route path="/confirm" element={<ConfirmPage />} />
 
               {/* מוגן */}
               <Route
