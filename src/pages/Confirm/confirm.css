@@ -1,18 +1,19 @@
-/* Confirm Page Styles */
+/* Confirm Page Styles - Clean Design */
 
 .confirm-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f9fafb;
   padding: 20px;
 }
 
 .confirm-container {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
   max-width: 440px;
   width: 100%;
   padding: 40px 32px;
@@ -102,7 +103,7 @@
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #2563eb;
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -111,8 +112,9 @@
 }
 
 .submit-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  background: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .submit-button:disabled {
@@ -131,7 +133,7 @@
 .link-button {
   background: none;
   border: none;
-  color: #667eea;
+  color: #2563eb;
   font-weight: 600;
   cursor: pointer;
   text-decoration: underline;
@@ -140,7 +142,7 @@
 }
 
 .link-button:hover:not(:disabled) {
-  color: #764ba2;
+  color: #1d4ed8;
 }
 
 .link-button:disabled {
@@ -159,14 +161,14 @@
 .back-link {
   background: none;
   border: none;
-  color: #667eea;
+  color: #2563eb;
   font-weight: 600;
   cursor: pointer;
   font-size: 0.9rem;
 }
 
 .back-link:hover {
-  color: #764ba2;
+  color: #1d4ed8;
   text-decoration: underline;
 }
 

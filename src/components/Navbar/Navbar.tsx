@@ -13,6 +13,7 @@ function Navbar() {
     isAuthenticated,
     isProfileFilled,
     onToggleTheme,
+    handleLogout,
   } = useNavbar();
 
   return (
@@ -112,9 +113,22 @@ function Navbar() {
             </Typography>
           )}
 
-          <Button variant="outlined" onClick={onToggleTheme}>
-            Toggle Theme
-          </Button>
+          <Box sx={{ display: "flex", gap: 1 }}>
+            <Button variant="outlined" onClick={onToggleTheme}>
+              Toggle Theme
+            </Button>
+            
+            {isAuthenticated && (
+              <Button 
+                variant="contained" 
+                color="error" 
+                onClick={handleLogout}
+                size="small"
+              >
+                Logout
+              </Button>
+            )}
+          </Box>
         </Box>
       </Toolbar>
     </AppBar>
